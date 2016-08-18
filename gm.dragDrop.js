@@ -4,7 +4,7 @@
 	// Based on myDraggable - https://docs.angularjs.org/guide/directive
 
 	angular
-		.module('gm.dragDrop')
+		.module('gm.dragDrop', [])
 		.directive('gmDraggable', ['$document', gmDraggable])
 		.directive('gmOnDrop', gmOnDrop);
 
@@ -27,19 +27,19 @@
 				event.preventDefault();
 
 				dragOb = scope.$eval(attr.gmDraggable);
-				dragOb.$$gmDragZone = attr.gmDragZone;
+				dragOb.$$gmDropZone = attr.gmDropZone;
 
 				clone = element.clone();
 				clone.css({
-					visibility: 'hidden'
+					visibility: 'hidden',
 				});
 				element.after(clone);
 
 				element.css({
 					position: 'relative',
-					backgroundColor: 'lightgrey',
 					pointerEvents: 'none'
 				});
+				element.addClass('gm-dragging');
 
 				var elBoundingRect = element[0].getBoundingClientRect();
 				absParent.css({
@@ -64,19 +64,22 @@
 				});
 			}
 
-			function mouseup() {
-				clone.after(element);
-				clone.remove();
+		  function mouseup() {
+		    if(dragOb) {
+				  dragOb = null;
+				  clone.replaceWith(element);
+				} else {
+				  clone.remove();
+				}
+				
 				element.css({
 					position: '',
-					backgroundColor: '',
 					top: '',
 					left: '',
-					pointerEvents: '',
-					zIndex: ''
+					pointerEvents: ''
 				});
+				element.removeClass('gm-dragging');
 				absParent.remove();
-				dragOb = null;
 				$document.off('mousemove', mousemove);
 				$document.off('mouseup', mouseup);
 			}
@@ -85,15 +88,12 @@
 
 	function gmOnDrop() {
 		return function(scope, element, attr) {
-
 			element.on('mouseover', function() {
 				if(!dragOb)
 					return;
-
-				if(dragOb.$$gmDragZone == attr.gmDragZone) {
-					element.css({
-						backgroundColor: 'lightgrey'
-					});
+        
+				if(dragOb.$$gmDropZone == attr.gmDropZone) {
+					element.addClass('gm-dropping');
 				}
 			});
 
@@ -101,22 +101,22 @@
 				if(!dragOb)
 					return;
 
-				element.css({
-					backgroundColor: ''
-				});
+				element.removeClass('gm-dropping');
 			});
 
 			element.on('mouseup', function() {
 				if(!dragOb)
 					return;
 
-				if(dragOb.$$gmDragZone == attr.gmDragZone) {
-					scope.$eval(attr.gmOnDrop)(dragOb);
+				if(dragOb.$$gmDropZone == attr.gmDropZone) {
+					scope.$apply(function() {
+					  if(scope.$eval(attr.gmOnDrop)(dragOb)) {
+					    dragOb = null;
+					  }
+					});
 				}
 
-				element.css({
-					backgroundColor: ''
-				});
+				element.removeClass('gm-dropping');
 			});
 		}
 	}

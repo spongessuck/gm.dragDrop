@@ -37,7 +37,7 @@ You can define style for two classes, `.gm-dragging` and `.gm-dropping`, to set 
 By default, the element being draggged will return to its original position when released, which can give unexpected results if you're changing your view models in `gmOnDrop`. If you are altering the structure of your data in the `gmOnDrop` function, return a truthy value from that function to prevent this behavior.
 
 ## Drop Zones
-You can also define a `gm-drop-zone` attribute on both draggable elements and drop zones to control where elements can be dropped. Draggable elements can only be dropped on drop zones when their `gm-drop-zone` attribute matches.
+You can also define a `gm-drop-zone` attribute on both draggable elements and drop zones to control where elements can be dropped. Draggable elements can only be dropped on drop zones when their `gm-drop-zone` attributes match.
 
 #### Sample template using drop zones:
 ```html

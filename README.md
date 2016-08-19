@@ -11,7 +11,7 @@ First, add the `gm.dragDrop` module to your app's dependencies:
 
     var app = angular.module('myApp', ['gm.dragDrop']);
 
-There are 2 directives included in the module: `gmDraggable` and `gmOnDrop`. Adding the `gmDraggable` attribute to an element makes it draggable. Adding the `gmOnDrop` attribute to an element sets it as a drop zone for the draggable element. Set the value of `gmOnDrop` to a function that will be called when the dragged element is released. Set the value of `gmDraggable` to the object you want to be passed to `gmOnDrop`.
+There are 2 directives included in the module: `gmDraggable` and `gmOnDrop`. Adding the `gmDraggable` directive to an element makes it draggable. Adding the `gmOnDrop` directive to an element sets it as a drop zone for the draggable element. Set the value of `gmOnDrop` to a function that will be called when the dragged element is released. Set the value of `gmDraggable` to the object you want to be passed to `gmOnDrop`.
 
 #### Sample controller:
 ```javascript

@@ -37,7 +37,7 @@ this.invalidDrop = function(_data) {
 
 #### Sample template:
 ```html
-<span gm-draggable="$ctrl.data" gm-invalid-drop='$ctrl.invalidDrop'>Number {{data.value}}</span>
+<span gm-draggable="$ctrl.data" gm-on-invalid-drop='$ctrl.invalidDrop'>Number {{data.value}}</span>
 <div style='width:30%; float:right; padding:50px; border:solid black 1px' gm-on-drop="$ctrl.onDrop" gm-on-hover='$ctrl.onHover'>Drop Area</div>
 ```
 

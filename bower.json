@@ -1,0 +1,22 @@
+{
+  "name": "gm.drag-drop",
+  "description": "Angular module to add simple, data-driven drag and drop functionality",
+  "main": "gm.dragDrop.js",
+  "authors": [
+    "Greg McGee <spongessuck@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angularjs",
+    "drag",
+    "drop"
+  ],
+  "homepage": "https://github.com/spongessuck/gm.dragDrop",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

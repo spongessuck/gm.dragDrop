@@ -6,12 +6,19 @@
 	angular
 		.module('gm.dragDrop', [])
 		.directive('gmDraggable', ['$document', gmDraggable])
+		.directive('gmOnHover', gmOnHover)
 		.directive('gmOnDrop', gmOnDrop);
 
 	var dragOb = null;
 
+	function apply(scope, attr) {
+		scope.$apply(function() {
+			scope.$eval(attr)(dragOb);
+		});
+	}
+
 	function gmDraggable($document) {
-		return function(scope, element, attr) {
+		return function(scope, element, attrs) {
 
 			var startX = 0,
 				startY = 0,
@@ -22,26 +29,32 @@
 				cursor: 'pointer'
 			});
 
+			var cancelWatch = null;
+
 			element.on('mousedown', function(event) {
 				// Prevent default dragging of selected content
 				event.preventDefault();
 
-				dragOb = scope.$eval(attr.gmDraggable);
-				dragOb.$$gmDropZone = attr.gmDropZone;
+				cancelWatch = scope.$watch(function() {
+					return element.prop('innerHTML');
+				}, function(val) {
+					if(clone)
+						clone.prop('innerHTML', val);
+				});
+
+				dragOb = scope.$eval(attrs.gmDraggable);
+				dragOb.$$gmDropZone = attrs.gmDropZone;
 
 				clone = element.clone();
-				clone.css({
-					visibility: 'hidden',
-				});
-				element.after(clone);
+				element.addClass('gm-drag-element').after(clone);
 
-				element.css({
+				clone.css({
 					position: 'relative',
 					pointerEvents: 'none'
-				});
-				element.addClass('gm-dragging');
+				}).addClass('gm-dragging');
 
 				var elBoundingRect = element[0].getBoundingClientRect();
+				console.log(elBoundingRect.left, elBoundingRect.top, event.pageX, event.pageY);
 				absParent.css({
 					position: 'absolute',
 					zIndex: '2000',
@@ -49,7 +62,7 @@
 					left:  elBoundingRect.left + 'px'
 				});
 				$document.find('body').append(absParent);
-				absParent.append(element);
+				absParent.append(clone);
 
 				startX = event.pageX;
 				startY = event.pageY;
@@ -58,27 +71,25 @@
 			});
 
 			function mousemove(event) {
-				element.css({
+				clone.css({
 					top: event.pageY - startY + 'px',
 					left:  event.pageX - startX + 'px'
 				});
 			}
 
-		  function mouseup() {
-		    if(dragOb) {
-				  dragOb = null;
-				  clone.replaceWith(element);
-				} else {
-				  clone.remove();
+			function mouseup() {
+				if(dragOb) {
+					if(attrs.gmOnInvalidDrop) {
+						apply(scope, attrs.gmOnInvalidDrop);
+					}
+					dragOb = null;
 				}
-				
-				element.css({
-					position: '',
-					top: '',
-					left: '',
-					pointerEvents: ''
-				});
-				element.removeClass('gm-dragging');
+
+				cancelWatch();
+
+				element.removeClass('gm-drag-element');
+
+				clone.remove();
 				absParent.remove();
 				$document.off('mousemove', mousemove);
 				$document.off('mouseup', mouseup);
@@ -86,12 +97,25 @@
 		};
 	}
 
+	function gmOnHover() {
+		return function(scope, element, attr) {
+			element.on('mouseover', function() {
+				if(!dragOb)
+					return;
+
+				if(dragOb.$$gmDropZone == attr.gmDropZone) {
+					apply(scope, attr.gmOnHover);
+				}
+			});
+		}
+	}
+
 	function gmOnDrop() {
 		return function(scope, element, attr) {
 			element.on('mouseover', function() {
 				if(!dragOb)
 					return;
-        
+
 				if(dragOb.$$gmDropZone == attr.gmDropZone) {
 					element.addClass('gm-dropping');
 				}
@@ -109,11 +133,8 @@
 					return;
 
 				if(dragOb.$$gmDropZone == attr.gmDropZone) {
-					scope.$apply(function() {
-					  if(scope.$eval(attr.gmOnDrop)(dragOb)) {
-					    dragOb = null;
-					  }
-					});
+					apply(scope, attr.gmOnDrop);
+					dragOb = null;
 				}
 
 				element.removeClass('gm-dropping');

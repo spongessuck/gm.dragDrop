@@ -6,38 +6,46 @@ gm.dragDrop is available on both NPM and Bower:
 
     $ npm/bower install gm.drag-drop --save
 
-## Usage
+## Use
 First, add the `gm.dragDrop` module to your app's dependencies:
 
     var app = angular.module('myApp', ['gm.dragDrop']);
 
-There are 2 directives included in the module: `gmDraggable` and `gmOnDrop`. Adding the `gmDraggable` directive to an element makes it draggable. Adding the `gmOnDrop` directive to an element sets it as a drop zone for the draggable element. Set the value of `gmOnDrop` to a function that will be called when the dragged element is released. Set the value of `gmDraggable` to the object you want to be passed to `gmOnDrop`.
+There are 3 directives included in the module: `gmDraggable`, `gmOnDrop`, and `gmOnHover`. Adding the `gmDraggable` directive to an element makes it draggable. Adding the `gmOnDrop` directive to an element sets it as a drop zone for the draggable element. Set the value of `gmOnHover` or `gmOnDrop` to a function that will be called when the dragged element is over or released on an element, respectively. Set the value of `gmDraggable` to the object you want to be passed to `gmOnDrop`.
+
+Items with `gmDraggable` set can also assign a function to a `gmOnInvalidDrop` attribute, which will be called if the item is dropped anywhere but a valid drop zone.
 
 #### Sample controller:
 ```javascript
 ...
 this.data = { key: "number", value: "1" }
 
-this.onDrop = function(_data) {
-    console.log(_data.key, _data.value); // number 1
+this.onHover = function(_data) {
+    console.log('hovering', _data.key, _data.value); // hovering number 1
 }
+
+this.onDrop = function(_data) {
+    console.log('dropped', _data.key, _data.value); // dropped number 1
+}
+
+this.invalidDrop = function(_data) {
+    console.log('invalid drop', _data.key, _data.value); // invalid drop number 1
+}
+
 ...
 ```
 
 #### Sample template:
 ```html
-<span gm-draggable="$ctrl.data">Number {{data.value}}</span>
-<div style='width:30%; float:right; padding:50px; border:solid black 1px' gm-on-drop="$ctrl.onDrop">Drop Area</div>
+<span gm-draggable="$ctrl.data" gm-invalid-drop='$ctrl.invalidDrop'>Number {{data.value}}</span>
+<div style='width:30%; float:right; padding:50px; border:solid black 1px' gm-on-drop="$ctrl.onDrop" gm-on-hover='$ctrl.onHover'>Drop Area</div>
 ```
 
 #### Style
-You can define style for two classes, `.gm-dragging` and `.gm-dropping`, to set the style of the element being dragged and the drop zone element when the mouse hovers over it while dragging, respectively.
-
-## IMPORTANT
-By default, the element being draggged will return to its original position when released, which can give unexpected results if you're changing your view models in `gmOnDrop`. If you are altering the structure of your data in the `gmOnDrop` function, return a truthy value from that function to prevent this behavior.
+You can define style for three classes, `.gm-drag-element`, `.gm-dragging` and `.gm-dropping`, to set the style of the original element that was clicked, the element being dragged, and the drop zone element when the mouse hovers over it while dragging, respectively.
 
 ## Drop Zones
-You can also define a `gm-drop-zone` attribute on both draggable elements and drop zones to control where elements can be dropped. Draggable elements can only be dropped on drop zones when their `gm-drop-zone` attributes match.
+You can also define a `gm-drop-zone` attribute on both draggable elements and drop zones to control where elements can be dropped. Functions assigned to an element's `gm-on-drop` or `gm-on-hover` attributes will only be called when its `gm-drop-zone` attribute matches the dragged element's `gm-drop-zone` attribute.
 
 #### Sample template using drop zones:
 ```html

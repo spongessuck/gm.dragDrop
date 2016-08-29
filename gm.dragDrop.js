@@ -5,7 +5,7 @@
 
 	angular
 		.module('gm.dragDrop', [])
-		.directive('gmDraggable', ['$document', gmDraggable])
+		.directive('gmDraggable', ['$window', '$document', gmDraggable])
 		.directive('gmOnHover', gmOnHover)
 		.directive('gmOnDrop', gmOnDrop);
 
@@ -17,7 +17,7 @@
 		});
 	}
 
-	function gmDraggable($document) {
+	function gmDraggable($window, $document) {
 		return function(scope, element, attrs) {
 
 			var startX = 0,
@@ -58,7 +58,7 @@
 				absParent.css({
 					position: 'absolute',
 					zIndex: '2000',
-					top: elBoundingRect.top + 'px',
+					top: elBoundingRect.top + $window.scrollY + 'px',
 					left:  elBoundingRect.left + 'px'
 				});
 				$document.find('body').append(absParent);

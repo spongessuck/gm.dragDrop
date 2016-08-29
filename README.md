@@ -20,7 +20,7 @@ Items with `gmDraggable` set can also assign a function to a `gmOnInvalidDrop` a
 ...
 this.data = { key: "number", value: "1" }
 
-this.onHover = function(_data) {
+this.onHover = function(_data, mouseEvent) {
     console.log('hovering', _data.key, _data.value); // hovering number 1
 }
 

@@ -11,9 +11,9 @@
 
 	var dragOb = null;
 
-	function apply(scope, attr) {
+	function apply(scope, attr, event) {
 		scope.$apply(function() {
-			scope.$eval(attr)(dragOb);
+			scope.$eval(attr)(dragOb, event);
 		});
 	}
 
@@ -99,12 +99,13 @@
 
 	function gmOnHover() {
 		return function(scope, element, attr) {
-			element.on('mouseover', function() {
+
+			element.on('mouseover', function(e) {
 				if(!dragOb)
 					return;
 
 				if(dragOb.$$gmDropZone == attr.gmDropZone) {
-					apply(scope, attr.gmOnHover);
+					apply(scope, attr.gmOnHover, e);
 				}
 			});
 		}

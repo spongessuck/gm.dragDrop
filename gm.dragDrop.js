@@ -58,7 +58,7 @@
 				absParent.css({
 					position: 'absolute',
 					zIndex: '2000',
-					top: elBoundingRect.top + $window.scrollY + 'px',
+					top: elBoundingRect.top + $window.pageYOffset + 'px',
 					left:  elBoundingRect.left + 'px'
 				});
 				$document.find('body').append(absParent);

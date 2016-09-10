@@ -25,13 +25,14 @@
 				clone = null,
 				absParent = angular.element('<div></div>');
 
-			element.css({
-				cursor: 'pointer'
-			});
-
 			var cancelWatch = null;
-
-			element.on('mousedown', function(event) {
+  
+      var handle = null;
+      angular.forEach(element.children(), function(el) {
+        if(el.tagName == 'GM-DRAG-HANDLE' || el.hasAttribute("gm-drag-handle"))
+          handle = angular.element(el);
+      });
+			(handle || element).on('mousedown', function(event) {
 				// Prevent default dragging of selected content
 				event.preventDefault();
 
@@ -54,12 +55,13 @@
 				}).addClass('gm-dragging');
 
 				var elBoundingRect = element[0].getBoundingClientRect();
-				console.log(elBoundingRect.left, elBoundingRect.top, event.pageX, event.pageY);
+				
 				absParent.css({
 					position: 'absolute',
 					zIndex: '2000',
-					top: elBoundingRect.top + $window.pageYOffset + 'px',
-					left:  elBoundingRect.left + 'px'
+					top: elBoundingRect.top + $window.scrollY + 'px',
+					left:  elBoundingRect.left + 'px',
+					width: elBoundingRect.width + 'px'
 				});
 				$document.find('body').append(absParent);
 				absParent.append(clone);

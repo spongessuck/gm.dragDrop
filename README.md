@@ -9,7 +9,9 @@ gm.dragDrop is available on both NPM and Bower:
 ## Use
 First, add the `gm.dragDrop` module to your app's dependencies:
 
-    var app = angular.module('myApp', ['gm.dragDrop']);
+```javascript
+var app = angular.module('myApp', ['gm.dragDrop']);
+```
 
 There are 3 directives included in the module: `gmDraggable`, `gmOnDrop`, and `gmOnHover`. Adding the `gmDraggable` directive to an element makes it draggable. Adding the `gmOnDrop` directive to an element sets it as a drop zone for the draggable element. Set the value of `gmOnHover` or `gmOnDrop` to a function that will be called when the dragged element is over or released on an element, respectively. Set the value of `gmDraggable` to the object you want to be passed to `gmOnDrop`.
 
@@ -18,6 +20,7 @@ Items with `gmDraggable` set can also assign a function to a `gmOnInvalidDrop` a
 #### Sample controller:
 ```javascript
 ...
+
 this.data = { key: "number", value: "1" }
 
 this.onHover = function(_data, mouseEvent) {
@@ -59,8 +62,8 @@ You can add a child element to a `gm-draggable` element with the tag name or cla
 
 ### Sample template using a drag handle:
 ```html
-<span gm-draggable='$ctrl.data">
-	<span class='gm-drag-handle'>[Dragging only works if you click here]</span> Number {{data.value}}
+<span gm-draggable="$ctrl.data">
+	<span class="gm-drag-handle">[Dragging only works if you click here]</span> Number {{data.value}}
 </span>
 ```
 

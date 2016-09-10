@@ -54,5 +54,15 @@ You can also define a `gm-drop-zone` attribute on both draggable elements and dr
 <div style='width:30%; float:right; padding:50px; border:solid black 1px' gm-on-drop="$ctrl.onDrop" gm-drop-zone='1'>Drops Allowed Here</div>
 ```
 
+## Handles
+You can add a child element to a `gm-draggable` element with the tag name or class `gm-drag-handle` to have it act as the drag 'handle' if you don't want the entire element to respond to dragging.
+
+### Sample template using a drag handle:
+```html
+<span gm-draggable='$ctrl.data">
+	<span class='gm-drag-handle'>[Dragging only works if you click here]</span> Number {{data.value}}
+</span>
+```
+
 ## Demo
 http://plnkr.co/edit/Gz4FuH?p=preview

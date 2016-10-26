@@ -27,12 +27,10 @@
 
 			var cancelWatch = null;
   
-      var handle = null;
-      angular.forEach(element.children(), function(el) {
-        if(el.tagName == 'GM-DRAG-HANDLE' || el.hasAttribute("gm-drag-handle"))
-          handle = angular.element(el);
-      });
-			(handle || element).on('mousedown', function(event) {
+			// Handle will become a regular element, so if anything is returned,
+			// we need to wrap that in angular.element(...) to bind events to it
+      var handle = element[0].querySelectorAll('gm-drag-handle, [gm-drag-handle]');
+			(handle.length ? angular.element(handle) : element).on('mousedown', function(event) {
 				// Prevent default dragging of selected content
 				event.preventDefault();
 

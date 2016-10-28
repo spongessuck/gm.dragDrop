@@ -1,6 +1,6 @@
 {
   "name": "gm.drag-drop",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Angular module to add simple, data-driven drag and drop functionality",
   "main": "gm.dragDrop.js",
   "scripts": {

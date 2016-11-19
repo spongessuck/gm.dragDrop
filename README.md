@@ -58,7 +58,7 @@ You can also define a `gm-drop-zone` attribute on both draggable elements and dr
 ```
 
 ## Handles
-You can add a child element to a `gm-draggable` element with the tag name or class `gm-drag-handle` to have it act as the drag 'handle' if you don't want the entire element to respond to dragging.
+You can add a child element to a `gm-draggable` element with the tag name, attribute, or class `gm-drag-handle` to have it act as the drag 'handle' if you don't want the entire element to respond to dragging.
 
 ### Sample template using a drag handle:
 ```html
@@ -68,4 +68,4 @@ You can add a child element to a `gm-draggable` element with the tag name or cla
 ```
 
 ## Demo
-http://plnkr.co/edit/TXpS26?p=preview
+http://plnkr.co/edit/Gz4FuH?p=preview

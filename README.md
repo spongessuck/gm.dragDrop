@@ -68,4 +68,4 @@ You can add a child element to a `gm-draggable` element with the tag name or cla
 ```
 
 ## Demo
-http://plnkr.co/edit/Gz4FuH?p=preview
+http://plnkr.co/edit/TXpS26?p=preview

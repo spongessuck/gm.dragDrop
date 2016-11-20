@@ -52,7 +52,7 @@ You can also define a `gm-drop-zone` attribute on both draggable elements and dr
 
 #### Sample template using drop zones:
 ```html
-<span gm-draggable="$ctrl.data" gm-drop-zone='1'>Number {{data.value}}</span>
+<span gm-draggable="$ctrl.data" gm-drop-zone='1'>Number {{$ctrl.data.value}}</span>
 <div style='width:30%; float:right; padding:50px; border:solid black 1px' gm-on-drop="$ctrl.onDrop" gm-drop-zone='2'>Cannot Drop Here</div>
 <div style='width:30%; float:right; padding:50px; border:solid black 1px' gm-on-drop="$ctrl.onDrop" gm-drop-zone='1'>Drops Allowed Here</div>
 ```
@@ -63,7 +63,7 @@ You can add a child element to a `gm-draggable` element with the tag name, attri
 ### Sample template using a drag handle:
 ```html
 <span gm-draggable="$ctrl.data">
-	<span class="gm-drag-handle">[Dragging only works if you click here]</span> Number {{data.value}}
+	<span class="gm-drag-handle">[Dragging only works if you click here]</span> Number {{$ctrl.data.value}}
 </span>
 ```
 

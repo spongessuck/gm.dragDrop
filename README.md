@@ -1,5 +1,5 @@
 # gm.dragDrop
-Angular directives to add native, simple, data-driven drag and drop functionality.
+AngularJS directives to add native, simple, data-driven drag and drop functionality.
 
 ## Include
 gm.dragDrop is available on both NPM and Bower:
